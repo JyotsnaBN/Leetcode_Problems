@@ -1,0 +1,54 @@
+//74. Search a 2D Matrix
+//Write an efficient algorithm that searches for a value target in an m x n integer 
+matrix matrix. This matrix has the following properties:
+//Integers in each row are sorted from left to right.
+//The first integer of each row is greater than the last integer of the previous row.
+
+class Solution 
+{
+    public boolean searchMatrix(int[][] mat, int target) 
+    {
+        int m = mat.length;
+        int n = mat[0].length;
+        
+        if(n==1 && m==1)
+        {
+            if(mat[0][0] == target)
+                return true;
+            else
+                return false;
+        }
+        //We store the first number of every row in an array i.e., we store the 1st column elements
+        int arr[] = new int[m];
+        
+        for(int i = 0; i<m; i++)
+            arr[i] = mat[i][0];
+        //We search for the row in which the target might be present
+        int mr = bsearch(arr, target);
+        //We then search for the element only in that row
+        int lr = bsearch(mat[mr], target);
+        
+        if(mat[mr][lr] == target)
+            return true;
+        return false;
+    }
+    
+    public int bsearch(int arr[], int target)//Function for binary search
+    {
+        int f = 0, l = arr.length-1, mid = (f+l)/2;
+        while(f<=l)
+        {
+            if(arr[mid]==target)
+                return mid;
+            else if(arr[mid]>target)
+                l = mid - 1;
+            else
+                f = mid + 1;
+            mid = (f+l)/2;   
+        }
+        if(arr[mid]>target && mid>0)
+            return (mid-1);
+        else
+            return mid;
+    }
+}

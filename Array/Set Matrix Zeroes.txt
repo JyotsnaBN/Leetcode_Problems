@@ -1,0 +1,49 @@
+//73. Set Matrix Zeroes
+//Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+
+class Solution 
+{
+    public void setZeroes(int[][] mat) 
+    {
+        int m = mat.length;
+        int n = mat[0].length;
+
+        //Use 2 sets to store the row and column numbers with a zero in it
+        HashSet<Integer> s1 = new HashSet<Integer> ();
+        HashSet<Integer> s2 = new HashSet<Integer> ();
+
+        for(int i = 0; i<m; i++)
+        {
+            for(int j = 0; j<n; j++)
+            {
+                if(mat[i][j] == 0)
+                {
+                    //If a zero is encountered, add that row and column index to the sets
+                    s1.add(i);
+                    s2.add(j);
+                }
+            }
+        }
+
+        for(int i = 0; i<m; i++)
+        {
+            if(s1.contains(i))
+            {
+                //If a row number is present in the set, change all elements in that row to 0
+                for(int j = 0; j<n; j++)
+                    mat[i][j] = 0;
+            }
+        }
+
+        for(int i = 0; i<n; i++)
+        {
+            if(s2.contains(i))
+            {
+                //If a column number is present in the set, change all elements in that column to 0
+                for(int j = 0; j<m; j++)
+                    mat[j][i] = 0;
+            }
+        }
+        
+    }
+}

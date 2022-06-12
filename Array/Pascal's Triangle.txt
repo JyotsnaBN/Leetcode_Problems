@@ -1,0 +1,40 @@
+//118. Pascal's Triangle
+//Given an integer numRows, return the first numRows of Pascal's triangle.
+//In Pascal's triangle, each number is the sum of the two numbers directly above it.
+
+class Solution 
+{
+    public List<List<Integer>> generate(int n) 
+    {
+        List<List<Integer>> res = new ArrayList<List<Integer>> ();
+        for(int i = 0; i<n; i++)
+        {
+            List<Integer> l1 = new ArrayList<Integer> ();
+            l1.add(1);
+
+            if(i==0)//for the first row - 1
+            {
+                res.add(l1);
+                continue;
+            }
+
+            if(i==1)//for the second row - 1 1
+            {
+                l1.add(1);
+                res.add(l1);
+                continue;
+            }
+            
+            //From the 3rd row, we will get the numbers from the previous row and add them
+            for(int j = 0; j<res.get(i-1).size()-1; j++)
+            {
+                l1.add(res.get(i-1).get(j) + res.get(i-1).get(j+1));
+            }
+            l1.add(1);
+            
+            res.add(l1);
+            
+        }
+        return res;
+    }
+}

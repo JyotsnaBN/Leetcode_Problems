@@ -1,0 +1,26 @@
+//121. Best Time to Buy and Sell Stock
+//You want to maximize your profit by choosing a single day to buy one stock and choosing a 
+//different day in the future to sell that stock.
+
+class Solution 
+{
+    public int maxProfit(int[] p) 
+    {
+        int res = 0, n = p.length;
+        int min = 0, max = 0;//index of min and max prices
+        for(int i = 1; i<n; i++)
+        {
+            //If a day has price less than the current price, update both min and max index to that index
+            if(p[i]<p[min])
+                min = max = i;
+            //If a day has price greater than current max, update max and check the difference of max and min prices
+            else if(p[i]>p[max])
+            {
+                max = i;
+                if(res<p[max]-p[min])
+                    res = p[max]-p[min];
+            }
+        }
+        return res;
+    }
+}
