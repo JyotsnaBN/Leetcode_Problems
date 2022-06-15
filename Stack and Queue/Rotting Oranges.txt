@@ -1,0 +1,101 @@
+/*994. Rotting Oranges
+You are given an m x n grid where each cell can have one of three values:
+0 representing an empty cell,
+1 representing a fresh orange, or
+2 representing a rotten orange.
+Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+
+Return the minimum number of minutes that must elapse until no cell has a fresh orange. 
+If this is impossible, return -1.
+*/
+
+class Solution 
+{
+    public int orangesRotting(int[][] grid) 
+    {
+        int m = grid.length;
+        int n = grid[0].length;
+        
+        Queue<Pair<Integer,Integer>> q = new LinkedList<Pair<Integer,Integer>> ();
+        int c = 0, res = 0;
+        int curr1 = 0, curr2 = 0;
+        
+        for(int i = 0; i<m; i++)
+        {
+            for(int j = 0; j<n; j++)
+            {
+                if(grid[i][j] == 1)//count the number of fresh oranges at the beginning - it should be 0 at the end otherwise return -1
+                    c++;
+                if(grid[i][j] == 2)//add the position of the rotten fruits into the queue
+                {
+                    q.add(new Pair<Integer, Integer> (i,j));
+                    System.out.println("Add - " + i + "   " + j + "   " + res);
+                    curr1++;
+                    
+                }
+            }
+        }
+        if(q.isEmpty() && c==0)//no rotten fruits : return -1
+            return 0;
+        else if(q.isEmpty() && c!=0)
+            return -1;
+        System.out.println(c);
+        int x, y;
+        while(!q.isEmpty())
+        {
+            x = q.peek().getKey();
+            y = q.remove().getValue();
+            
+            if(x!=0 && grid[x-1][y] == 1)
+            {
+                grid[x-1][y] = 2;
+                c--;
+                q.add(new Pair<Integer, Integer> (x-1,y));
+                System.out.println("Add - " + (x-1) + "   " + y + "   " + res);
+                curr2++;
+            }
+            if(x!=m-1 && grid[x+1][y] == 1)
+            {
+                grid[x+1][y] = 2;
+                c--;
+                q.add(new Pair<Integer, Integer> (x+1,y));
+                System.out.println("Add - " + (x+1) + "   " + y + "   " + res);
+                curr2++;
+            }
+            if(y!=0 && grid[x][y-1] == 1)
+            {
+                grid[x][y-1] = 2;
+                c--;
+                q.add(new Pair<Integer, Integer> (x,y-1));
+                System.out.println("Add - " + x + "   " + (y-1) + "   " + res);
+                curr2++;
+            }
+            if(y!=n-1 && grid[x][y+1] == 1)
+            {
+                grid[x][y+1] = 2;
+                c--;
+                q.add(new Pair<Integer, Integer> (x,y+1));
+                System.out.println("Add - " + x + "   " + (y+1) + "   " + res);
+                curr2++;
+            }
+            
+            System.out.println(c);
+            
+            curr1--;
+            if(curr1==0)
+            {
+                curr1 = curr2;
+                curr2 = 0;
+                res++;
+            }
+            
+        }
+        res--;
+        System.out.println(c);
+        if(c==0)
+            return res;
+        else
+            return -1;
+
+    }
+}

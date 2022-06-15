@@ -1,0 +1,57 @@
+/*1209. Remove All Adjacent Duplicates in String II
+You are given a string s and an integer k, a k duplicate removal consists of choosing k adjacent 
+and equal letters from s and removing them, causing the left and the right side of the deleted substring
+to concatenate together.
+
+We repeatedly make k duplicate removals on s until we no longer can.
+
+Return the final string after all such duplicate removals have been made. 
+It is guaranteed that the answer is unique.
+*/
+
+
+class Solution 
+{
+    public String removeDuplicates(String s1, int k) 
+    {
+        //Maintain a stack with the character and the number of times it has occurred continuously
+        Stack<Pair<Character, Integer>> s = new Stack<Pair<Character, Integer>> ();
+        int n = s1.length();
+        char c;
+        for(int i = 0; i<n; i++)
+        {
+            c = s1.charAt(i);
+            if(s.isEmpty())//when the stack is empty, push the character and 1
+            {
+                s.push(new Pair<Character, Integer>(c,1));
+                //System.out.println("Push - " + c + "  " + "1");
+            }
+            //if we don't have k same characters yet, push the character and the count of that character
+            else if(s.peek().getKey() == c && s.peek().getValue()< k-1)
+            {
+                s.push(new Pair<Character, Integer>(c,s.peek().getValue() + 1));
+                //System.out.println("Push - " + c + "  " + (s.peek().getValue() + 1));
+            }
+            //if we have k same characters, pop them
+            else if(s.peek().getKey() == c && s.peek().getValue()==k-1)
+            {
+                for(int j = 1; j<=k-1; j++)
+                    //System.out.println("Pop - " + s.pop());
+                    s.pop();
+            }
+            else
+            {
+                s.push(new Pair<Character, Integer>(c,1)); 
+                //System.out.println("Push - " + c + "  " + "1");
+            }
+              
+        }
+        String res = "";
+        //System.out.println(s);
+        while(!s.isEmpty())
+        {
+            res = s.pop().getKey() + res;
+        }
+        return res;   
+    }
+}
