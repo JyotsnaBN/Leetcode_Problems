@@ -1,0 +1,45 @@
+/* 416. Partition Equal Subset Sum
+
+Given a non-empty array nums containing only positive integers, 
+find if the array can be partitioned into two subsets such that 
+the sum of elements in both subsets is equal.
+*/
+
+
+
+class Solution 
+{
+    public boolean canPartition(int[] nums) 
+    {
+        Set<Integer> set = new HashSet<Integer> ();
+        int n = nums.length;
+        int sum = 0;
+        for(int i = 0; i<n; i++)
+            sum+=nums[i];
+        //If we have to partition it into 2, the sum of few elements in the array 
+	//should be = sum of all elements/2
+        if(sum%2!=0)
+            return false;
+        sum/=2;
+        
+        set.add(nums[0]);
+        //Generate all possible sums and if we get sum/2, the stop
+        for(int i = 1; i<n; i++)
+        {
+            Set<Integer> set1 = new HashSet<Integer> ();
+            for(int j : set)
+            {
+                set1.add(nums[i]+j);
+            }
+            for(int j : set1)
+            {
+                set.add(j);
+            }
+                
+                
+            if(set.contains(sum))
+                return true;
+        }
+        return false;
+    }
+}
