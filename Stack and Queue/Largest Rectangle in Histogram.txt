@@ -1,0 +1,95 @@
+//84. Largest Rectangle in Histogram
+
+//Given an array of integers heights representing the histogram's bar height where 
+//the width of each bar is 1, return the area of the largest rectangle in the histogram.
+
+class Solution 
+{
+    public int largestRectangleArea(int[] arr) 
+    {
+        Stack<Pair<Integer,Integer>> stack = new Stack<>();
+        int max = 0, area = 0;
+        int n = arr.length;
+        if(n==1)
+            return arr[0];
+        
+        stack.push(new Pair(0, arr[0]));
+        //System.out.println("Push - " + 0 + "   " + arr[0]);
+        int index = 0, val = arr[0];
+        //Let us store the index and value in a stack
+        
+        
+        
+        for(int i = 1; i<n; i++)
+        {
+            if(stack.isEmpty())// When the stack is empty, push the current index and value
+            {
+                //System.out.println("Push - " + i + "   " + arr[i]);
+                stack.push(new Pair(i, arr[i]));
+                continue;
+            }
+            //When we pop a pair, we do not want to lose the previous index, so we constantly update index and val
+            index = stack.peek().getKey();
+            val = stack.peek().getValue();
+            
+            if(val<arr[i])// If the elements are in increasing order, we just add it to the stack
+            {
+                //System.out.println("Push - " + i + "   " + arr[i]);
+                stack.push(new Pair(i, arr[i]));
+                index = i;
+                val = arr[i];
+            }
+                
+            else// If we encounter a value lesser than the value on the top of the stack
+            {
+                int temp = index;
+                while(val>arr[i])// We pop out elements till the top is greater than the current element
+                {
+                    area = ((i-1) - index + 1) * val;
+                    //System.out.println("i = " + i +"   area = " + area);
+                    if(area>max)
+                        max = area;
+                    
+                   // System.out.println("Pop - " + stack.peek().getKey() + "   " + stack.peek().getValue());
+                    stack.pop();
+                    
+                    
+                    
+                    temp = index;
+                    if(!stack.isEmpty())
+                    {
+                        index = stack.peek().getKey();
+                        val = stack.peek().getValue();
+                    }
+                    else
+                        break;
+                }
+                stack.push(new Pair(temp, arr[i]));
+                index = temp;
+                val = arr[i];
+                //System.out.println("Push - " + temp+ "   " + arr[i]);
+                
+            }
+                
+        }
+        while(!stack.isEmpty())// At the end we look at all the elements still present in the stack and see if any of them form the max rectangle
+            //These are calculated from the index to the end i.e., n-1
+        {
+           // System.out.println(index +"  " + val);
+            area = ((n-1)-index+1)*val;
+           // System.out.println("   area = " + area);
+            if(max<area)
+                max = area;
+            stack.pop();
+            if(!stack.isEmpty())
+            {
+                index = stack.peek().getKey();
+                val = stack.peek().getValue();
+            }
+        }
+     //   System.out.println();
+        
+        
+        return max;
+    }
+}
