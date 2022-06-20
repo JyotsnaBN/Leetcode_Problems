@@ -1,0 +1,62 @@
+/*15. 3Sum
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] 
+such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+Notice that the solution set must not contain duplicate triplets.
+*/
+
+class Solution 
+{
+    public List<List<Integer>> threeSum(int[] nums) 
+    {
+        if(nums.length<3)
+            return new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        List<List<Integer>> res = new ArrayList<>();
+        
+        Set<List<Integer>> set = new HashSet<List<Integer>>();
+        
+        for(int x:nums)
+        {
+            if(map.containsKey(x))
+                map.put(x, map.get(x)+1);
+            else
+                map.put(x, 1);
+        }
+        if(map.containsKey(0) && map.get(0)>=3)
+        {
+            List<Integer> list=new ArrayList<Integer>();
+            list = Arrays.asList(0,0,0);
+            set.add(list);
+        }
+        for(int i = 0; i<nums.length; i++)
+        {
+            for(int j = i; j<nums.length; j++)
+            {
+                if(nums[i] == 0 && nums[j] == 0)
+                        continue;
+                int sum = nums[i] + nums[j];
+                if(map.containsKey(-1*sum))
+                {
+                    
+                    if(i==j)
+                        continue;
+                    if(nums[i]==(-1*sum) && map.get(-1*sum)==1)
+                        continue;
+                    if(nums[j]==(-1*sum) && map.get(-1*sum)==1)
+                        continue;
+                    
+                    List<Integer> list=new ArrayList<Integer>(); 
+                    list = Arrays.asList(nums[i], nums[j], (-1*sum));
+                    Collections.sort(list);
+                   
+                        set.add(list);
+                }
+            }
+        }
+        
+        for(List<Integer> i : set)
+            res.add(i);
+        return res;
+        
+    }
+}
