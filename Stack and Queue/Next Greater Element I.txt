@@ -1,0 +1,55 @@
+/*496. Next Greater Element I
+The next greater element of some element x in an array is 
+the first greater element that is to the right of x in the same array.
+*/
+
+class Solution 
+{
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) 
+    {
+        Stack<Integer> stack = new Stack<Integer>();
+        int n1 = nums1.length, n2 = nums2.length;
+        
+        HashMap<Integer, Integer> map = new HashMap<> ();
+        
+        //We will create a map with the next greatest element(NGE) for each number in nums2
+        
+        int result[] = new int[n1];
+        for(int i = n2-1; i>=0; i--)//We will traverse nums2 from the right hand side
+        {
+            if(stack.isEmpty())//if the stack is empty, for example nums[n-1] then the NGE will be -1
+            {
+                map.put(nums2[i], -1);
+                stack.push(nums2[i]);//after we find the NGE, we push the current element into the stack 
+                                     //as it can be the NGE for a smaller value on the left
+                continue;
+            }
+            if(stack.peek()>nums2[i])//if the element on the top of the stack is greater than the current element, it will be the NGE
+            {
+                map.put(nums2[i], stack.peek());//So we assign NGE for current element
+                stack.push(nums2[i]);//And then push the current element on the stack
+            }
+            else
+            {
+                while(!stack.isEmpty() && stack.peek()<nums2[i])//if the element on top of the stack is lesser than the curr ele,
+                                                                //then it can never be the NGE to any element on the left
+                                                                //so we pop till we reach an ele greater than the curr ele
+                    stack.pop();
+                if(stack.isEmpty())//if no num is greater than curr then -1
+                    map.put(nums2[i], -1);
+                else
+                    map.put(nums2[i], stack.peek());//otherwise the num on top of stack is the NGE
+                stack.push(nums2[i]);
+            }
+            
+        }
+        
+        
+        for(int i = 0; i<n1; i++)
+        {
+            result[i] = map.get(nums1[i]);
+        }
+        
+        return result;
+    }
+}
