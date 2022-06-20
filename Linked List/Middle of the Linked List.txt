@@ -1,0 +1,22 @@
+/*876. Middle of the Linked List
+Given the head of a singly linked list, return the middle node 
+of the linked list.
+If there are two middle nodes, return the second middle node.
+*/
+
+class Solution 
+{
+    public ListNode middleNode(ListNode head) 
+    {
+        ListNode mid = head;
+        int c = 0;
+        while(head.next!=null)
+        {
+            c++;
+            if(c%2!=0)
+                mid = mid.next;
+            head = head.next;
+        }
+        return mid;
+    }
+}

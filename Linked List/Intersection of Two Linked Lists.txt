@@ -1,0 +1,57 @@
+/*160. Intersection of Two Linked Lists
+Given the heads of two singly linked-lists headA and headB, 
+return the node at which the two lists intersect. 
+If the two linked lists have no intersection at all, return null.
+*/
+
+
+/*Approach 1 - Iterate through both lists n^2 - brute force*/
+
+public class Solution 
+{
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) 
+    {
+        ListNode res = new ListNode();
+        ListNode h1 = headA, h2 = headB;
+        while(h1!=null)
+        {
+            h2 = headB;
+            while(h2!=null)
+            {
+                if(h1==h2) return h1;
+                h2 = h2.next;
+            }
+            h1 = h1.next;
+        }
+        return null;
+       
+    }
+}
+
+
+/*Approach 2 - If len a is l1 and len b is l2, and last n ele are same, l1+l2-n = l2+l1-n 
+    If l1<l2, a finishes first and we start from b head..... b finishes and
+    we start with a head... 
+    Both sync up for the last n nodes and both reach the end of both lists 
+    simultaneously.*/
+
+public class Solution 
+{
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) 
+    {
+        ListNode l1 = headA, l2 = headB;
+        while(l1!=null || l2!=null)
+        {
+            if(l1==null)
+                l1 = headB;
+            if(l2==null)
+                l2 = headA;
+            if(l1==l2)
+                return l1;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        return null;
+       
+    }
+}

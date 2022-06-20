@@ -1,0 +1,42 @@
+/*61. Rotate List
+Given the head of a linked list, rotate the list to the right by k places.
+*/
+
+class Solution 
+{
+    public ListNode rotateRight(ListNode head, int k) 
+    {
+        int len = 0;
+        ListNode h = head;
+        ListNode tail = h;
+        while(h!=null)
+        {
+            len++;
+            tail = h;
+            h = h.next;
+            
+        }
+        if(k==len)
+            return head;
+        if(len==0 || len==1)
+            return head;
+        k = k%len;
+        
+        len -=k;
+        h = head;
+        int i = 0;
+        while(i<len-1 && h!=null)
+        {
+            h = h.next;
+            i++;
+        }
+        //System.out.println("head - " + head.val + "   h - " + h.val + "   tail - " + tail.val);
+        
+        tail.next = head;
+        head = h.next;
+        h.next = null;
+        
+        
+        return head;
+    }
+}
