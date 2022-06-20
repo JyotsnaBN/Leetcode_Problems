@@ -1,0 +1,28 @@
+/*26. Remove Duplicates from Sorted Array
+Given an integer array nums sorted in non-decreasing order, remove 
+the duplicates in-place such that each unique element appears only once. 
+The relative order of the elements should be kept the same.
+*/
+
+
+class Solution 
+{
+    public int removeDuplicates(int[] nums) 
+    {
+        int k = nums.length;
+        int curr = nums[0];
+        for(int i = 1; i<k; i++)
+        {
+            if(nums[i]==curr)
+            {
+                for(int j = i; j<k-1; j++)
+                    nums[j] = nums[j+1];
+                k--;
+                i--;
+            }
+            else
+                curr = nums[i];
+        }
+        return k;
+    }
+}
