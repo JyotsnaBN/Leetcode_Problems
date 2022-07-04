@@ -15,7 +15,7 @@
  */
 class Solution 
 {
-    List<Integer> list = new ArrayList<Integer> ();
+    /*List<Integer> list = new ArrayList<Integer> ();
     public int kthSmallest(TreeNode root, int k) 
     {
         func(root);
@@ -29,5 +29,26 @@ class Solution
         func(root.left);
         list.add(root.val);
         func(root.right);
+    }*/
+    
+    int count = 0, res;
+    public int kthSmallest(TreeNode root, int k) 
+    {
+        func(root, k);
+        return res;
     }
+    public void func(TreeNode root, int k)
+    {
+        if(root==null)
+            return;
+        
+        func(root.left, k);
+        
+        count++;
+        if(count==k)
+            res = root.val;
+        
+        func(root.right, k);  
+    }
+    
 }
