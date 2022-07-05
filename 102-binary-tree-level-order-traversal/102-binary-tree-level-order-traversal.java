@@ -15,7 +15,7 @@
  */
 class Solution 
 {
-    public List<List<Integer>> levelOrder(TreeNode root) 
+    /*public List<List<Integer>> levelOrder(TreeNode root) 
     {
         List<List<Integer>> res = new ArrayList<List<Integer>> ();
         List<TreeNode> list = new ArrayList<TreeNode> ();
@@ -65,8 +65,29 @@ class Solution
             }
             
         }
-        
+        return res;
+    }*/
+    
+    public List<List<Integer>> levelOrder(TreeNode root) 
+    {
+        List<List<Integer>> res = new ArrayList<List<Integer>> ();
+        func(root, res, 0);
         return res;
         
     }
+    public void func(TreeNode root, List<List<Integer>> res, int i)
+    {
+        if(root==null)
+            return;
+        if(res.size()==i)
+            res.add(new ArrayList<Integer> ());
+        
+        res.get(i).add(root.val);
+        func(root.left, res, i+1);
+        func(root.right, res, i+1);
+    }
+    
+    
+    
+    
 }
