@@ -2,6 +2,41 @@ class Solution
 {
     public int kthSmallest(int[][] mat, int k) 
     {
+        int n = mat.length;
+        PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(int i = 0; i<n; i++)
+        {
+            for(int j = 0; j<n; j++)
+            {
+                if(q.size()<k)
+                    q.add(mat[i][j]);
+                else
+                {
+                    if(mat[i][j]<q.peek())
+                    {
+                        q.poll();
+                        q.add(mat[i][j]);
+                    }
+                }
+            }
+        }
+        
+        return q.peek();
+        
+    }
+}
+
+
+
+
+
+/*
+
+class Solution 
+{
+    public int kthSmallest(int[][] mat, int k) 
+    {
         PriorityQueue<Element> q = new PriorityQueue<Element>(new ElementComparator());
         Set<String> vis = new HashSet<String> ();
         int n = mat.length;
@@ -70,3 +105,5 @@ class ElementComparator implements Comparator<Element>
         return 0;
     }
 }
+
+*/
