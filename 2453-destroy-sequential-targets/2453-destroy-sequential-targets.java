@@ -16,7 +16,6 @@ class Solution
             else
                 map.put(rem, 1);
             
-            //System.out.println(nums[i] + " " + rem + " " + map.get(rem));
             
             if(map.get(rem)>max)
             {
@@ -24,8 +23,6 @@ class Solution
             }
         }
 
-        
-        List<Integer> list = new ArrayList<Integer>();
         
         for(int i = 0; i<n; i++)
         {
