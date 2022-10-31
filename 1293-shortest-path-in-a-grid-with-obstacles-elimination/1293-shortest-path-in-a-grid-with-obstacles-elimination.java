@@ -20,7 +20,6 @@ class Solution
         
         Arrays.fill(dp[0][0], 0);
         
-        arr[m-1][n-1] = true;
         res = func(grid, m-1, n-1, k, arr);
 
         
@@ -31,7 +30,8 @@ class Solution
     
     public int func(int[][] grid, int i, int j, int k, boolean arr[][])
     {
-        if(i<0 || j<0 || i>=m || j>=n || k<0)
+
+        if(i<0 || j<0 || i>=m || j>=n || arr[i][j] || k<0)
             return Integer.MAX_VALUE;
         
         if(dp[i][j][k] != -1)
@@ -46,40 +46,14 @@ class Solution
             return dp[i][j][k];
         }
         
-        //arr[i][j] = true;
-        
-        int a = Integer.MAX_VALUE, b =  Integer.MAX_VALUE, c = Integer.MAX_VALUE, d = Integer.MAX_VALUE;
-        
-        if(j-1>=0 && j-1<n && !arr[i][j-1])
-        {   
-            arr[i][j-1] = true;
-            d = func(grid, i, j-1, k, arr);
-            arr[i][j-1] = false;
-        }
-        
-        if(j+1>=0 && j+1<n && !arr[i][j+1])
-        {    
-            arr[i][j+1] = true;
-            c = func(grid, i, j+1, k, arr);
-            arr[i][j+1] = false;
-        }
-        
-        if(i-1>=0 && i-1<m && !arr[i-1][j])
-        {    
-            arr[i-1][j] = true;
-            a = func(grid, i-1, j, k, arr);
-            arr[i-1][j] = false;
-        }
-        
-        if(i+1>=0 && i+1<m && !arr[i+1][j])
-        {    
-            arr[i+1][j] = true;
-            b = func(grid, i+1, j, k, arr);
-            arr[i+1][j] = false;
-        }
+        arr[i][j] = true;
+        int d = func(grid, i, j-1, k, arr);
+        int c = func(grid, i, j+1, k, arr);
+        int a = func(grid, i-1, j, k, arr);
+        int b = func(grid, i+1, j, k, arr);
         
 
-        //arr[i][j] = false;
+        arr[i][j] = false;
         
         
         int r = Math.min(a, Math.min(b, Math.min(c, d)));
