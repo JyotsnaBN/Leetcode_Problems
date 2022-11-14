@@ -2,11 +2,9 @@ class Solution
 {
     public int removeStones(int[][] stones) 
     {
-        HashMap<Integer, List<Integer>> row = new HashMap<>();
-        HashMap<Integer, List<Integer>> col = new HashMap<>();
-        
-        int n = 0;
-        
+        HashMap<Integer, List<Integer>> row = new HashMap<>();//Map with row and all cols connected to it
+        HashMap<Integer, List<Integer>> col = new HashMap<>();//Map with col and all rows connected to it
+                
         for(int i = 0; i<stones.length; i++)
         {
             int x = stones[i][0], y = stones[i][1];
@@ -20,11 +18,12 @@ class Solution
             col.get(y).add(x);
         }
         
-        HashSet<Integer> rvis = new HashSet<>();
-        HashSet<Integer> cvis = new HashSet<>();
+        HashSet<Integer> rvis = new HashSet<>();//Rows visited
+        HashSet<Integer> cvis = new HashSet<>();//Cols visited
         
-        HashSet<Integer> rs = new HashSet<>();
-        HashSet<Integer> cs = new HashSet<>();
+        
+        Stack<Integer> rs = new Stack<Integer>();//Current rows to be visited
+        Stack<Integer> cs = new Stack<Integer>();//Current cols to be visited
         
         int no = 0;
         
@@ -38,88 +37,45 @@ class Solution
                 if(cvis.contains(j))
                     continue;
                 
-                no++;
+                no++;//Count number of islands
+                               
+                rs.push(i);
+                cs.push(j);
                 
-                rs = new HashSet<>();
-                cs = new HashSet<>();
-                
-                
-                rs.add(i);
-                cs.add(j);
-                
-                func(row, col, rvis, cvis, rs, cs);
-                
+                func(row, col, rvis, cvis, rs, cs);   //Call the function for one stone in each island       
             }
         }
         
-        return stones.length - no;
-        
-        
+        return stones.length - no;    
     }
     
     
     
-    public void func(HashMap<Integer, List<Integer>> row, HashMap<Integer, List<Integer>> col, HashSet<Integer> rvis, HashSet<Integer> cvis, HashSet<Integer> rs, HashSet<Integer> cs)
+    public void func(HashMap<Integer, List<Integer>> row, HashMap<Integer, List<Integer>> col, HashSet<Integer> rvis, HashSet<Integer> cvis, Stack<Integer> rs, Stack<Integer> cs)
     {
-        //System.out.println("Func - ");
-        while(rs.size()!=0 || cs.size()!=0)
+        while(!rs.isEmpty() || !cs.isEmpty())
         {   
-            while(rs.size()!=0)
+            while(!rs.isEmpty())
             {
-                int x = rs.iterator().next();
-                //System.out.println("x = " + x);
-
-                for(int y : row.get(x))
+                int x = rs.pop();
+                for(int y : row.get(x))//For a particular row, add all the cols it is connected to
                 {
-                    if(!cvis.contains(y))
-                    {    
-                        cs.add(y);
-                        //System.out.println("Add y = " + y);
-                    }
+                    if(!cvis.contains(y))  
+                        cs.push(y);
                 }
-
                 rvis.add(x);
-                rs.remove(x);
-                //System.out.println("Rem x = " + x);
             }
-            while(cs.size()!=0)
+            while(!cs.isEmpty())
             {
-                int y = cs.iterator().next();
-                //System.out.println("y = " + y);
-                
+                int y = cs.pop();
                 for(int x : col.get(y))
                 {
-                    if(!rvis.contains(x))
-                    {    
-                        rs.add(x);
-                        //System.out.println("Add x = " + x);
-                    }
+                    if(!rvis.contains(x)) 
+                        rs.push(x);
                 }
-
                 cvis.add(y);
-                cs.remove(y);
-                //System.out.println("Rem y = " + y);
             }
-        }
-        
-        
+        }   
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
 }
