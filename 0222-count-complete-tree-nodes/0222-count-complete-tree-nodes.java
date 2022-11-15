@@ -19,6 +19,40 @@ class Solution
     {
         if(root == null)
             return 0;
-        return countNodes(root.left) + countNodes(root.right) + 1;
+        if(root.left == null)
+            return 1;
+        if(root.right == null)
+            return 2;
+        
+        int total = (int)Math.pow(2, height(root)+1) - 1;
+        int rem = 0, lh = 0, rh = 0;
+        
+        while(root!=null)
+        {
+            lh = height(root.left);
+            rh = height(root.right);
+            
+            if(lh>rh)
+            {
+                rem += Math.pow(2, lh);
+                root = root.left;
+            }
+            else
+            {
+                root = root.right;
+            }
+        }
+        
+        return total - rem;
+    }
+    
+    
+    public int height(TreeNode root)
+    {
+        if(root == null)
+            return -1;
+        if(root.left == null)
+            return 0;
+        return height(root.left) + 1;
     }
 }
