@@ -24,30 +24,28 @@ class Solution
         if(root.right == null)
             return 2;
         
-        int total = (int)Math.pow(2, height(root)+1) - 1;
-        int rem = 0, lh = 0, rh = 0;
+        int total = (int)Math.pow(2, height(root)+1) - 1;//Find the maximum number of nodes the tree can have
+        int rem = 0, lh = 0, rh = 0;//Find the number of nodes not present
         
         while(root!=null)
         {
-            lh = height(root.left);
-            rh = height(root.right);
+            lh = height(root.left);//Find the height of left subtree
+            rh = height(root.right);//Find the height of right subtree
             
-            if(lh>rh)
+            if(lh>rh)//Right subtree does not have any node in its last level
             {
-                rem += Math.pow(2, lh);
-                root = root.left;
+                rem += Math.pow(2, lh);//Count the nodes not present
+                root = root.left;//Move to left subtree
             }
-            else
-            {
+            else//Left subtree is full, so move to right subtree
                 root = root.right;
-            }
         }
         
         return total - rem;
     }
     
     
-    public int height(TreeNode root)
+    public int height(TreeNode root)//leaf nodes are considered to be at height 0
     {
         if(root == null)
             return -1;
